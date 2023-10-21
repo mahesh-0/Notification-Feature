@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notification Example</title>
+</head>
+<body>
+    <h1>New Posts</h1>
+    <button id="showNotification">Show Notification</button>
+
+    <script>
+        // Check if the browser supports the Notification API
+        if ("Notification" in window) {
+            // Request permission to show notifications
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    console.log("Notification permission granted!");
+                }
+            });
+
+            // Function to display a notification
+            function showNotification() {
+                if (Notification.permission === "granted") {
+                    const notification = new Notification("New Post Alert", {
+                        body: "A new post is available!",
+                        icon: "notification-icon.png" // You can replace this with your own icon URL
+                    });
+
+                    notification.onclick = function () {
+                        // Handle the click event (e.g., open the new post)
+                        window.open("https://example.com/new-post");
+                        notification.close();
+                    };
+                } else if (Notification.permission === "denied") {
+                    alert("You have denied notification permission. Please enable it in your browser settings.");
+                }
+            }
+
+            // Attach a click event to the button to show a notification
+            document.getElementById("showNotification").addEventListener("click", showNotification);
+        } else {
+            console.log("Browser does not support the Notification API.");
+        }
+    </script>
+</body>
+</html>
